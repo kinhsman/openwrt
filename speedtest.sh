@@ -22,4 +22,4 @@ echo "alias speedtest=\"$(pwd)/speedtest\"" >> ~/.profile
 # Source the .ashrc or .profile file to apply the changes immediately
 source ~/.ashrc || source ~/.profile
 
-echo "Speedtest CLI has been installed. You can now use 'speedtest' command."
+echo -e "\e[32mSpeedtest CLI has been installed. You can now use 'speedtest' command.\e[0m"
