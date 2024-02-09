@@ -13,6 +13,18 @@ get_cpu_architecture() {
 # Get CPU architecture
 cpu_arch=$(get_cpu_architecture)
 
+# Download and install necessary utilities if not already installed
+if ! command -v wget &> /dev/null; then
+    opkg update
+    opkg install wget
+fi
+
+if ! command -v tar &> /dev/null; then
+    opkg update
+    opkg install tar
+fi
+
+
 # Download the appropriate Speedtest CLI based on CPU architecture
 case "$cpu_arch" in
     x86_64)
@@ -45,9 +57,6 @@ fi
 # Add an alias for speedtest
 echo "alias speedtest=\"$(pwd)/speedtest\"" >> ~/.ashrc
 echo "alias speedtest=\"$(pwd)/speedtest\"" >> ~/.profile
-
-# Source the .ashrc or .profile file to apply the changes immediately
-source ~/.ashrc || source ~/.profile
 
 # Print the installation message
 echo -e "\e[32mSpeedtest CLI has been installed. You can now use 'speedtest' command.\e[0m"
