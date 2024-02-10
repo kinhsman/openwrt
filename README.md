@@ -3,16 +3,16 @@
 This script automates the installation process of Ookla Speedtest on OpenWRT OS.
 
 ## Prerequisites:
-Ensure the following packages are installed: **curl** and **bash**.
+Ensure the following packages are installed: `wget`
 
 ```bash
 opkg update
-opkg install curl bash
+opkg install wget
 ```
 # Installation:
 Execute the following command in your terminal:
 ```
-curl -fsSL https://raw.githubusercontent.com/kinhsman/openwrt/main/speedtest-install.sh | bash
+wget -qO- https://raw.githubusercontent.com/kinhsman/openwrt/main/speedtest-install.sh | ash
 ```
 
 # Usage:
