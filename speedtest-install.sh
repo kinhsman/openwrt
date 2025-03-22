@@ -1,65 +1,83 @@
 #!/bin/sh
 
-# Function to determine the CPU architecture
+# Function to determine CPU architecture
 get_cpu_architecture() {
     arch=$(uname -m)
     case "$arch" in
         x86_64) echo "x86_64";;
         aarch64) echo "arm64";;
-        *) echo "unknown";;
+        *) echo "unknown"; return 1;;
     esac
 }
 
+# Exit on any error
+set -e
+
+# Check if script is run as root (required for /usr/bin installation)
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Error: This script must be run as root (use sudo)" >&2
+    exit 1
+fi
+
+echo "Installing Speedtest CLI..."
+
 # Get CPU architecture
-cpu_arch=$(get_cpu_architecture)
+cpu_arch=$(get_cpu_architecture) || {
+    echo "Error: Unsupported CPU architecture" >&2
+    exit 1
+}
 
-# Download and install necessary utilities if not already installed
-if ! command -v wget &> /dev/null; then
-    opkg update
-    opkg install wget
+# Check and install dependencies using opkg
+for cmd in wget tar; do
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+        echo "Installing $cmd..."
+        if ! opkg update || ! opkg install "$cmd"; then
+            echo "Error: Failed to install $cmd" >&2
+            exit 1
+        fi
+    fi
+done
+
+# Version and download information
+VERSION="1.2.0"
+BASE_URL="https://install.speedtest.net/app/cli"
+DOWNLOAD_FILE="ookla-speedtest-${VERSION}-linux-${cpu_arch}.tgz"
+
+# Create temporary directory
+TEMP_DIR=$(mktemp -d)
+cd "$TEMP_DIR" || {
+    echo "Error: Failed to create/change to temp directory" >&2
+    exit 1
+}
+
+# Download Speedtest CLI
+if ! wget -O "speedtest.tar.gz" "${BASE_URL}/${DOWNLOAD_FILE}"; then
+    echo "Error: Failed to download Speedtest CLI" >&2
+    rm -rf "$TEMP_DIR"
+    exit 1
 fi
 
-if ! command -v tar &> /dev/null; then
-    opkg update
-    opkg install tar
+# Extract archive
+if ! tar zxvf "speedtest.tar.gz"; then
+    echo "Error: Failed to extract archive" >&2
+    rm -f "speedtest.tar.gz"
+    rm -rf "$TEMP_DIR"
+    exit 1
 fi
 
-
-# Download the appropriate Speedtest CLI based on CPU architecture
-case "$cpu_arch" in
-    x86_64)
-        download_url="https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-x86_64.tgz"
-        ;;
-    arm64)
-        download_url="https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz"
-        ;;
-    *)
-        echo "Unsupported CPU architecture."
-        exit 1
-        ;;
-esac
-
-# Download the Speedtest CLI
-wget -O speedtest.tar.gz "$download_url"
-
-# Extract the downloaded archive
-tar zxvf speedtest.tar.gz
-
-# Check if .ashrc or .profile exists, if not, create it
-if [ ! -f ~/.ashrc ]; then
-    touch ~/.ashrc
+# Install to /usr/bin and set permissions
+if [ -f "speedtest" ]; then
+    mv "speedtest" /usr/bin/speedtest
+    chmod +x /usr/bin/speedtest
+else
+    echo "Error: Speedtest binary not found in archive" >&2
+    rm -rf "$TEMP_DIR"
+    exit 1
 fi
 
-if [ ! -f ~/.profile ]; then
-    touch ~/.profile
-fi
+# Clean up
+cd /
+rm -rf "$TEMP_DIR"
 
-# Add an alias for speedtest
-echo "alias speedtest=\"$(pwd)/speedtest\"" >> ~/.ashrc
-echo "alias speedtest=\"$(pwd)/speedtest\"" >> ~/.profile
-
-# Print the installation message
-echo -e "\e[32mSpeedtest CLI has been installed. You can now use 'speedtest' command.\e[0m"
-
-# Print the logout message
-echo -e "\e[32mPlease log out and log back in to apply the changes.\e[0m"
+echo -e "\e[32mSpeedtest CLI installed successfully to /usr/bin/speedtest!"
+echo -e "You can now run 'speedtest' from any terminal.\e[0m"
