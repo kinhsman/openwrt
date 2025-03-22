@@ -5,7 +5,7 @@ get_cpu_architecture() {
     arch=$(uname -m)
     case "$arch" in
         x86_64) echo "x86_64";;
-        aarch64) echo "arm64";;
+        aarch64) echo "aarch64";;  # Changed from arm64 to match URL
         *) echo "unknown"; return 1;;
     esac
 }
@@ -41,7 +41,7 @@ done
 # Version and download information
 VERSION="1.2.0"
 BASE_URL="https://install.speedtest.net/app/cli"
-DOWNLOAD_FILE="ookla-speedtest-${VERSION}-linux-${cpu_arch}.tgz"
+DOWNLOAD_FILE="ookla-speedtest-${VERSION}-linux-${cpu_arch}.tgz"  # Will now use aarch64 correctly
 
 # Create temporary directory
 TEMP_DIR=$(mktemp -d)
