@@ -37,7 +37,7 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
 
 ---
 
-## Step 3: Download the New Firmware
+## Step 3: Copy the New Firmware Download URL
 1. Visit:
    `https://downloads.openwrt.org/releases/24.10.0/targets/x86/64/`
 2. Locate the file `generic-ext4-combined.img.gz`
