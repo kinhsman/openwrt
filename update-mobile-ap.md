@@ -32,8 +32,8 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
    scp root@10.16.10.2:/root/installed-packages.txt .
    ```
    Resulting Files for Restoration:
-    - backup-mobile-AP-2025-03-23.tar.gz
-    - installed-packages.txt
+    - `backup-mobile-AP-2025-03-23.tar.gz`
+    - `installed-packages.txt`
 
 ---
 
