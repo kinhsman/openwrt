@@ -108,7 +108,6 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
    ```
 4. SSH back into the instance and reinstall all packages:
    ```
-   ssh root@10.16.10.2
    cat /root/installed-packages.txt | awk '{print $1}' | while read pkg; do opkg install $pkg || echo "Failed to install $pkg"; done
    reboot
    ```
