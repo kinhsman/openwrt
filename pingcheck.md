@@ -19,3 +19,7 @@ echo "* * * * * /root/vpn_ping_check_and_restart.sh" | crontab - && /etc/init.d/
 ```
 /etc/init.d/cron status
 ```
+### ***Check logs***
+```
+logread | grep PingCheck
+```
