@@ -8,6 +8,9 @@ chmod +x /root/vpn_ping_check_and_restart.sh
 ```
 
 ***STOP: and edit the ping dedtination within the script***
+```
+nano /root/vpn_ping_check_and_restart.sh
+```
 
 ```
 echo "* * * * * /root/vpn_ping_check_and_restart.sh" | crontab - && /etc/init.d/cron restart
