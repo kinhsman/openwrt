@@ -7,6 +7,8 @@ wget https://raw.githubusercontent.com/kinhsman/openwrt/main/vpn_ping_check_and_
 chmod +x /root/vpn_ping_check_and_restart.sh
 ```
 
+### STOP: and edit the ping dedtination within the script
+
 ```
 echo "* * * * * /root/vpn_ping_check_and_restart.sh" | crontab - && /etc/init.d/cron restart
 ```
