@@ -1,19 +1,19 @@
 Run the following commands to enable auto restart on VPN via ping check
 ```
-wget https://raw.githubusercontent.com/kinhsman/openwrt/main/vpn_ping_check_and_restart.sh -O /root/vpn_ping_check_and_restart.sh
+wget https://raw.githubusercontent.com/kinhsman/openwrt/main/vpn_ping_check_and_restart.sh -O /usr/bin/pingcheck
 ```
 
 ```
-chmod +x /root/vpn_ping_check_and_restart.sh
+chmod +x /usr/bin/pingcheck
 ```
 
 ***STOP: and edit the ping dedtination within the script***
 ```
-nano /root/vpn_ping_check_and_restart.sh
+nano /usr/bin/pingcheck
 ```
 
 ```
-echo "* * * * * /root/vpn_ping_check_and_restart.sh" | crontab - && /etc/init.d/cron restart
+echo "* * * * * /usr/bin/pingcheck" | crontab - && /etc/init.d/cron restart
 ```
 
 ```
