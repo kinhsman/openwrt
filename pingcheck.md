@@ -13,7 +13,7 @@ nano /usr/bin/pingcheck
 ```
 
 ```
-echo "* * * * * /usr/bin/pingcheck" | crontab - && /etc/init.d/cron restart
+(crontab -l; echo "* * * * * /usr/bin/pingcheck") | crontab - && /etc/init.d/cron restart
 ```
 
 ```
