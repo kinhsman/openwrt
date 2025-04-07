@@ -12,7 +12,7 @@ opkg install wget
 # Installation:
 Execute the following command in your terminal:
 ```
-wget -qO- https://raw.githubusercontent.com/kinhsman/openwrt/main/speedtest-install.sh | ash
+wget -qO- https://raw.githubusercontent.com/kinhsman/openwrt/main/scripts/speedtest-install.sh | ash
 ```
 
 # Usage:
