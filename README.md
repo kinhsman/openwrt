@@ -22,3 +22,9 @@ speedtest
 ```
 # License:
 For licensing information, refer to [Speedtest CLI License.](https://www.speedtest.net/apps/cli)
+
+
+# OpenWRT Import and Replace Wireguard config of a VPN Concentrator
+```sh
+curl -o /usr/bin/import_wg https://raw.githubusercontent.com/kinhsman/openwrt/main/scripts/import_wg.sh && chmod +x /usr/bin/import_wg
+```
