@@ -30,7 +30,16 @@ opkg install wget
 ---
 ## Auto Restart VPN upon ping loss
    ```sh
-   wget -O /usr/bin/vpn_auto_restart https://raw.githubusercontent.com/kinhsman/openwrt/main/scripts/vpn_ping_check_and_restart.sh && chmod +x /usr/bin/vpn_auto_restart && (crontab -l 2>/dev/null; echo "* * * * * /usr/bin/vpn_auto_restart") | crontab - && /etc/init.d/cron restart || echo "Error: Command failed. Check internet, permissions, or cron setup."
+   wget -O /usr/bin/vpn_auto_restart https://raw.githubusercontent.com/kinhsman/openwrt/main/scripts/vpn_ping_check_and_restart.sh && chmod +x /usr/bin/vpn_auto_restart || echo "Error: Script download or setup failed.""
+   ```
+
+
+   STOP: modify the PING destination within the script
+   ```
+   nano /usr/bin/vpn_auto_restart
+   ```
+   ```
+   (crontab -l 2>/dev/null; echo "* * * * * /usr/bin/vpn_auto_restart") | crontab - && /etc/init.d/cron restart
    ```
 
    Check Cron Status
