@@ -30,7 +30,7 @@ opkg install wget
 ---
 ## Auto Restart VPN upon ping loss
    ```sh
-   wget -O /usr/bin/vpn_auto_restart https://raw.githubusercontent.com/kinhsman/openwrt/main/scripts/vpn_ping_check_and_restart.sh && chmod +x /usr/bin/vpn_auto_restart || echo "Error: Script download or setup failed.""
+   wget -O /usr/bin/vpn_auto_restart https://raw.githubusercontent.com/kinhsman/openwrt/main/scripts/vpn_ping_check_and_restart.sh && chmod +x /usr/bin/vpn_auto_restart || echo "Error: Script download or setup failed."
    ```
 
 
