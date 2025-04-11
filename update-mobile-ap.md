@@ -178,7 +178,6 @@ config interface 'loopback'
         option netmask '255.0.0.0'
 
 config globals 'globals'
-        option ula_prefix 'fdb7:1a85:78f0::/48'
         option packet_steering '1'
 
 config device
