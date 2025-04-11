@@ -131,6 +131,13 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
 
 ---
 
+## Step 8: Install MT7922 firmware (N100)
+   ```
+   cd /lib/firmware/mediatek 
+   wget https://github.com/openwrt/mt76/raw/master/firmware/WIFI_MT7922_patch_mcu_1_1_hdr.bin 
+   wget https://github.com/openwrt/mt76/raw/master/firmware/WIFI_RAM_CODE_MT7922_1.bin
+   ```
+
 ### Done!
 
 
