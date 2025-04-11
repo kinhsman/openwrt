@@ -501,8 +501,7 @@ qm set $VMID \
 msg_ok "Created OpenWrt VM ${CL}${BL}(${HN})"
 msg_info "Bridge interfaces are being added."
 qm set $VMID \
-  -net0 virtio,bridge=${LAN_BRG},macaddr=${LAN_MAC}${LAN_VLAN}${MTU} \
-  -net1 virtio,bridge=${BRG},macaddr=${MAC}${VLAN}${MTU} >/dev/null 2>/dev/null
+  -net0 virtio,bridge=${LAN_BRG},macaddr=${LAN_MAC}${LAN_VLAN}${MTU} 2>/dev/null
 msg_ok "Bridge interfaces have been successfully added."
 if [ "$START_VM" == "yes" ]; then
   msg_info "Starting OpenWrt VM"
