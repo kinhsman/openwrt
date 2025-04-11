@@ -146,3 +146,48 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
 - Markdown formatting (headings, code blocks, and lists) ensures it renders nicely on GitHub.
 - Commands are grouped logically and formatted as code blocks for easy copy-pasting.
 - The structure is broken into clear steps with descriptive titles.
+
+### Firewall config
+```
+/etc/config/firewall
+```
+```
+config defaults
+        option input 'ACCEPT'
+        option output 'ACCEPT'
+        option forward 'ACCEPT'
+        option synflood_protect '1'
+
+config zone
+        option name 'lan'
+        option input 'ACCEPT'
+        option output 'ACCEPT'
+        option forward 'ACCEPT'
+        list network 'lan'
+```
+
+### Network config
+```
+/etc/config/network
+```
+```
+config interface 'loopback'
+        option device 'lo'
+        option proto 'static'
+        option ipaddr '127.0.0.1'
+        option netmask '255.0.0.0'
+
+config globals 'globals'
+        option ula_prefix 'fdb7:1a85:78f0::/48'
+        option packet_steering '1'
+
+config device
+        option type 'bridge'
+        option name 'br-lan'
+        list ports 'eth0'
+        option bridge_empty '1'
+
+config interface 'lan'
+        option proto 'dhcp'
+        option device 'br-lan'
+```
