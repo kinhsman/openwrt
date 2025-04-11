@@ -499,27 +499,6 @@ qm set $VMID \
   <a href='https://ko-fi.com/D1D7EP4GF'><img src='https://img.shields.io/badge/&#x2615;-Buy me a coffee-blue' /></a>
   </div>" >/dev/null
 msg_ok "Created OpenWrt VM ${CL}${BL}(${HN})"
-msg_info "OpenWrt is being started in order to configure the network interfaces."
-qm start $VMID
-sleep 15
-msg_ok "Network interfaces are being configured as OpenWrt initiates."
-send_line_to_vm ""
-send_line_to_vm "uci delete network.@device[0]"
-send_line_to_vm "uci set network.wan=interface"
-send_line_to_vm "uci set network.wan.device=eth1"
-send_line_to_vm "uci set network.wan.proto=dhcp"
-send_line_to_vm "uci delete network.lan"
-send_line_to_vm "uci set network.lan=interface"
-send_line_to_vm "uci set network.lan.device=eth0"
-send_line_to_vm "uci set network.lan.proto=static"
-send_line_to_vm "uci set network.lan.ipaddr=${LAN_IP_ADDR}"
-send_line_to_vm "uci set network.lan.netmask=${LAN_NETMASK}"
-send_line_to_vm "uci commit"
-send_line_to_vm "halt"
-msg_ok "Network interfaces have been successfully configured."
-until qm status $VMID | grep -q "stopped"; do
-  sleep 2
-done
 msg_info "Bridge interfaces are being added."
 qm set $VMID \
   -net0 virtio,bridge=${LAN_BRG},macaddr=${LAN_MAC}${LAN_VLAN}${MTU} \
