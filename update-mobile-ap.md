@@ -50,8 +50,14 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
 1. Download and prepare the firmware:
    ```
    wget https://downloads.openwrt.org/releases/24.10.0/targets/x86/64/openwrt-24.10.0-x86-64-generic-ext4-combined.img.gz
+   ```
+   ```
    gunzip openwrt-24.10.0-x86-64-generic-ext4-combined.img.gz
-   qemu-img resize -f raw openwrt-24.10.0-x86-64-generic-ext4-combined.img 512M
+   ```
+   ```
+   qemu-img resize -f raw openwrt-24.10.0-x86-64-generic-ext4-combined.img 128M
+   ```
+   ```
    qm importdisk 10002 openwrt-24.10.0-x86-64-generic-ext4-combined.img local-zfs
    ```
 2. Configure the new disk in the VM:
