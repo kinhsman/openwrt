@@ -26,7 +26,7 @@ fi
 
 # Wireless configuration
 uci set wireless."$radio".channel='36'
-uci set wireless."$radio".htmode='VHT80'
+uci set wireless."$radio".htmode='VHT160'
 uci set wireless."$radio".txpower='20'
 uci set wireless."$radio".country='US'
 uci set wireless."$radio".legacy_rates='0'
