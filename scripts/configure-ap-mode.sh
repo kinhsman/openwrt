@@ -18,6 +18,12 @@ if ! echo "$radio" | grep -q "^radio[0-9]\+$"; then
     exit 1
 fi
 
+# Check if radio exists
+if ! uci show wireless."$radio" >/dev/null 2>&1; then
+    echo "Error: Radio interface $radio not found in wireless configuration."
+    exit 1
+fi
+
 # Wireless configuration
 uci set wireless."$radio".channel='36'
 uci set wireless."$radio".htmode='VHT80'
@@ -28,17 +34,18 @@ uci set wireless."$radio".short_preamble='1'
 uci set wireless."$radio".ampdu='1'
 
 # Disable and stop dnsmasq
-/etc/init.d/dnsmasq disable
-/etc/init.d/dnsmasq stop
+/etc/init.d/dnsmasq disable >/dev/null 2>&1
+/etc/init.d/dnsmasq stop >/dev/null 2>&1
 
-# Update and install packages
-opkg update
-opkg install irqbalance
-/etc/init.d/irqbalance enable
+# Install irqbalance if not already installed
+if ! opkg list-installed | grep -q irqbalance; then
+    opkg install irqbalance >/dev/null 2>&1
+fi
+/etc/init.d/irqbalance enable >/dev/null 2>&1
 
 # Disable and stop firewall
-/etc/init.d/firewall disable
-/etc/init.d/firewall stop
+/etc/init.d/firewall disable >/dev/null 2>&1
+/etc/init.d/firewall stop >/dev/null 2>&1
 
 # System tweaks
 echo 10 > /proc/sys/vm/swappiness
@@ -50,11 +57,11 @@ uci set wireless.default_"$radio".encryption='sae-mixed'
 uci set system.@system[0].log_size='0'
 uci set system.@system[0].conloglevel='4'
 
-# Remove unnecessary packages
-opkg remove luci-app-statistics collectd
+# Remove unnecessary packages if they exist
+opkg remove luci-app-statistics collectd >/dev/null 2>&1
 
 # Apply changes
 uci commit
-wifi reload
+wifi reload >/dev/null 2>&1 || echo "Warning: wifi reload failed, check wireless configuration."
 
 echo "Configuration applied successfully for $radio."
