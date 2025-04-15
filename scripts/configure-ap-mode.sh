@@ -1,0 +1,60 @@
+#!/bin/sh
+
+# Check if radio argument is provided
+if [ -z "$1" ]; then
+    echo "Please specify the radio interface (e.g., radio0):"
+    read -r radio
+    if [ -z "$radio" ]; then
+        echo "Error: No radio interface provided. Exiting."
+        exit 1
+    fi
+else
+    radio="$1"
+fi
+
+# Validate radio interface (basic check for format)
+if ! echo "$radio" | grep -q "^radio[0-9]\+$"; then
+    echo "Error: Invalid radio interface format. Expected 'radioX' (e.g., radio0)."
+    exit 1
+fi
+
+# Wireless configuration
+uci set wireless."$radio".channel='36'
+uci set wireless."$radio".htmode='VHT80'
+uci set wireless."$radio".txpower='20'
+uci set wireless."$radio".country='US'
+uci set wireless."$radio".legacy_rates='0'
+uci set wireless."$radio".short_preamble='1'
+uci set wireless."$radio".ampdu='1'
+
+# Disable and stop dnsmasq
+/etc/init.d/dnsmasq disable
+/etc/init.d/dnsmasq stop
+
+# Update and install packages
+opkg update
+opkg install irqbalance
+/etc/init.d/irqbalance enable
+
+# Disable and stop firewall
+/etc/init.d/firewall disable
+/etc/init.d/firewall stop
+
+# System tweaks
+echo 10 > /proc/sys/vm/swappiness
+
+# Wireless encryption
+uci set wireless.default_"$radio".encryption='sae-mixed'
+
+# Logging settings
+uci set system.@system[0].log_size='0'
+uci set system.@system[0].conloglevel='4'
+
+# Remove unnecessary packages
+opkg remove luci-app-statistics collectd
+
+# Apply changes
+uci commit
+wifi reload
+
+echo "Configuration applied successfully for $radio."
