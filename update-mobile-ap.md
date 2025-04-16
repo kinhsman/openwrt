@@ -6,7 +6,7 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
 
 ## Step 1: Back Up the Current Configuration
 1. Navigate to:  
-   `http://10.16.10.2/cgi-bin/luci/admin/system/flash`  
+   `http://10.10.10.2/cgi-bin/luci/admin/system/flash`  
 2. Download the backup:  
    Click **Generate archive** to save the configuration as `backup-mobile-AP-2025-03-23.tar.gz`.
 
@@ -14,14 +14,14 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
 
 ## Step 2: Install SFTP Server and List Installed Packages
 1. Go to:  
-   `http://10.16.10.2/cgi-bin/luci/admin/system/package-manager`  
+   `http://10.10.10.2/cgi-bin/luci/admin/system/package-manager`  
 2. Update package lists:  
    Click **Update lists...**  
 3. Install the SFTP server:  
    Install the package `openssh-sftp-server`.  
 4. SSH into the OpenWrt shell:  
    ```bash
-   ssh root@10.16.10.2
+   ssh root@10.10.10.2
    ```
 5. Export the list of installed packages:
    ```
@@ -29,7 +29,7 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
    ```
 6. From your macOS terminal, copy the package list to your local machine:
    ```
-   scp root@10.16.10.2:/root/installed-packages.txt .
+   scp root@10.10.10.2:/root/installed-packages.txt .
    ```
    Resulting Files for Restoration:
     - `backup-mobile-AP-2025-03-23.tar.gz`
@@ -74,7 +74,7 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
 1. Start the VM.
 2. SSH into the OpenWrt instance:
    ```
-   ssh root@10.16.10.2
+   ssh root@10.10.10.2
    ```
 3. Edit the network configuration:
    ```
@@ -85,9 +85,9 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
    config interface 'lan'
     option ifname 'eth0'
     option proto 'static'
-    option ipaddr '10.16.10.2'
+    option ipaddr '10.10.10.2'
     option netmask '255.255.255.0'
-    option gateway '10.16.10.1'
+    option gateway '10.10.10.1'
     list dns '10.16.10.1'
     list dns '8.8.8.8'
    ```
@@ -110,7 +110,7 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
    ```
 3. From your macOS terminal, upload the package list:
    ```
-   scp installed-packages.txt root@10.16.10.2:/root/installed-packages.txt
+   scp installed-packages.txt root@10.10.10.2:/root/installed-packages.txt
    ```
 4. SSH back into the instance and reinstall all packages:
    ```
@@ -123,7 +123,7 @@ This guide outlines the steps to upgrade the firmware of an OpenWrt instance run
 
 ## Step 7: Restore the Backup
 1. Access the web UI:
-   `http://10.16.10.2/cgi-bin/luci/admin/system/flash`
+   `http://10.10.10.2/cgi-bin/luci/admin/system/flash`
 2. Restore the backup:
    - Click Restore backup.
    - Browse to backup-mobile-AP-2025-03-23.tar.gz and upload it.
