@@ -1,7 +1,13 @@
 #!/bin/bash
 
-# Prompt user for the ping destination
-read -rp "Enter the IP address to ping for VPN check (e.g., 10.5.0.1): " PING_IP
+
+# Accept IP from argument or fallback to prompt
+if [ -n "$1" ]; then
+  PING_IP="$1"
+else
+  echo -n "Enter the IP address to ping for VPN check (e.g., 10.5.0.1): "
+  read PING_IP
+fi
 
 # Step 1: Download the script
 echo "Downloading ping check script..."
