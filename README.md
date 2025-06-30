@@ -50,3 +50,11 @@ opkg install wget
    ```
    logread | grep PingCheck
    ```
+
+---
+## Tailscale updater script
+   ```sh
+   wget -O /usr/sbin/update_tailscale https://raw.githubusercontent.com/kinhsman/openwrt/main/scripts/update_tailscale.sh && chmod +x /usr/sbin/update_tailscale || echo "Error: Script download or setup failed."
+   ```
+
+
